@@ -1,1 +1,52 @@
 
+import cv2
+import mediapipe as mp
+
+# Initialize MediaPipe Holistic and drawing utilities
+mp_drawing = mp.solutions.drawing_utils
+mp_holistic = mp.solutions.holistic
+
+# Function to process an input image and draw holistic landmarks
+def process_image(image_path, output_path):
+    # Read the input image
+    image = cv2.imread(image_path)
+    if image is None:
+        print(f"Error: Unable to load image at {image_path}")
+        return
+
+    # Convert the image to RGB
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    # Initialize the Holistic model
+    with mp_holistic.Holistic(static_image_mode=True) as holistic:
+        results = holistic.process(image_rgb)
+
+        # Draw landmarks on the image with white points and black connections
+        annotated_image = image.copy()
+        white_spec = mp_drawing.DrawingSpec(color=(0,0, 0), thickness=1, circle_radius=1)
+        black_spec = mp_drawing.DrawingSpec(color=(255, 255,255), thickness=1)
+
+        mp_drawing.draw_landmarks(
+            annotated_image, results.face_landmarks, mp_holistic.FACEMESH_TESSELATION,
+            white_spec, black_spec)
+
+        mp_drawing.draw_landmarks(
+            annotated_image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
+            white_spec, black_spec)
+
+        mp_drawing.draw_landmarks(
+            annotated_image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
+            white_spec, black_spec)
+
+        mp_drawing.draw_landmarks(
+            annotated_image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
+            white_spec, black_spec)
+
+        # Save the output image
+        cv2.imwrite(output_path, annotated_image)
+        print(f"Output saved to {output_path}")
+
+# Process the uploaded image
+input_image_path = 'input.jpg'
+output_image_path = 'output.jpg'
+process_image(input_image_path, output_image_path)
