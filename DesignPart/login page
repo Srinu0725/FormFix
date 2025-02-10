@@ -1,1 +1,78 @@
+import React from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+
+const LoginScreen = () => {
+  return (
+    <View style={styles.container}>
+      {/* Top Section with Image */}
+      <Image source={require("./image.jpg")} style={styles.image} />
+      
+      {/* Text Section */}
+      <Text style={styles.tagline}>BETTER SPORTS THROUGH BETTER SCIENCE</Text>
+      <Text style={styles.title}>FormFix.AI</Text>
+
+      {/* Buttons */}
+      <TouchableOpacity style={styles.loginButton}>
+        <Text style={styles.loginText}>Login</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.guestButton}>
+        <Text style={styles.guestText}>Continue as a Guest</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F5F5F5",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  image: {
+    width: "100%",
+    height: 250,
+    resizeMode: "cover",
+  },
+  tagline: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#8B0000",
+    marginTop: 10,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    fontFamily: "Caveat",
+    marginVertical: 10,
+  },
+  loginButton: {
+    backgroundColor: "#C18463",
+    paddingVertical: 12,
+    width: "80%",
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  loginText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  guestButton: {
+    backgroundColor: "black",
+    paddingVertical: 12,
+    width: "80%",
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  guestText: {
+    color: "white",
+    fontSize: 14,
+  },
+});
+
+export default LoginScreen;
 
