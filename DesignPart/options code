@@ -1,0 +1,80 @@
+import React, { useState } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Button, Alert } from 'react-native';
+
+const sports = [
+  { name: "Deadlift", image: require("./assets/deadlift.jpg") },
+  { name: "Yoga", image: require("./assets/yoga.jpg") },
+  { name: "Basketball", image: require("./assets/basketball.jpg") },
+  { name: "Cricket", image: require("./assets/cricket.jpg") },
+  { name: "Running", image: require("./assets/running.jpg") },
+];
+
+export default function SportsSelection() {
+  const [selectedSport, setSelectedSport] = useState(null);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Select Your Sport</Text>
+      <ScrollView contentContainerStyle={styles.grid}>
+        {sports.map((sport, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[
+              styles.sportContainer,
+              selectedSport === sport.name && styles.selectedSport,
+            ]}
+            onPress={() => setSelectedSport(sport.name)}
+          >
+            <Image source={sport.image} style={styles.image} />
+            <Text style={styles.sportName}>{sport.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      {selectedSport && (
+        <Button title="Continue" onPress={() => Alert.alert(`Selected: ${selectedSport}`)} color="#1E90FF" />
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#121212",
+    alignItems: "center",
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 16,
+  },
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+  sportContainer: {
+    margin: 10,
+    borderRadius: 10,
+    overflow: "hidden",
+    borderWidth: 2,
+    borderColor: "transparent",
+    alignItems: "center",
+  },
+  selectedSport: {
+    borderColor: "#1E90FF",
+  },
+  image: {
+    width: 120,
+    height: 120,
+    borderRadius: 10,
+  },
+  sportName: {
+    marginTop: 5,
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
