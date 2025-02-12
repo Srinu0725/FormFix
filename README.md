@@ -1,4 +1,4 @@
-FormFix
+##FormFix
 AI-Powered Video Analysis for Performance Improvement
 
 FormFix is a React Native & Web application that uses MediaPipe Pose and Machine Learning to analyze user-uploaded videos of activities like deadlifts, catwalks, and moonwalks. It provides accuracy scores, progress tracking, and AI-based feedback to help users refine their movements.
