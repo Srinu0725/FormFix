@@ -54,15 +54,11 @@ System Architecture
 
 Flow Diagram
 
-(Include an image or ASCII representation of the system flow)
-
 ER Diagram
 
-(Include an image representing the database schema)
 
 Sequence Diagram
 
-(Depict the interaction between system components)
 
 Timeline
 
