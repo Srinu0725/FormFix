@@ -1,0 +1,191 @@
+import React from 'react';
+import { View, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
+import { Text, Button, Searchbar } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const influencers = [
+  {
+    id: '1',
+    name: 'Manoj Vandha',
+    image: require('../assets/manoj.jpg'),
+    verified: true,
+    engagement: '78%',
+    price: '₹95K',
+  },
+  {
+    id: '2',
+    name: 'shivaRam',
+    image: require('../assets/shivaram.jpg'),
+    verified: true,
+    engagement: '78%',
+    price: '₹95K',
+  },
+  {
+    id: '3',
+    name: 'Akhil Naik',
+    image: require('../assets/akhil.jpg'),
+    verified: false,
+    engagement: 'N/A',
+    price: '₹95K',
+  },
+];
+
+const InfluencerScreen = () => {
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.homeText}>Home</Text>
+        <View style={styles.locationContainer}>
+          <Icon name="map-marker" size={20} color="#fff" />
+          <Text style={styles.locationText}>Gujarat, India</Text>
+        </View>
+      </View>
+
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <Text style={styles.title}>Find people 🤝 to collaborate with</Text>
+        <View style={styles.searchBarWrapper}>
+          <Searchbar placeholder="Search" style={styles.searchBar} />
+          <TouchableOpacity style={styles.voiceSearchButton}>
+            <Icon name="microphone" size={24} color="#000" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Influencers List */}
+      <FlatList
+        data={influencers}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={styles.listRow}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Image source={item.image} style={styles.profileImage} />
+            <Text style={styles.name}>
+              {item.name} {item.verified && <Icon name="check-decagram" size={14} color="#00f" />}
+            </Text>
+            <Text style={styles.engagement}>{item.engagement} Engagement</Text>
+            <Text style={styles.price}>Advertising Price: {item.price}</Text>
+            <Button mode="contained" style={styles.messageButton}>
+              Send Message
+            </Button>
+          </View>
+        )}
+      />
+
+      {/* Show All Button */}
+      <TouchableOpacity style={styles.showAllCard}>
+        <Text style={styles.showAllText}>Show All</Text>
+        <Text style={styles.influencerCount}>4,223,452 Influencers</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+    paddingHorizontal: 15,
+    paddingTop: 40,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  homeText: {
+    color: '#fff',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  locationText: {
+    color: '#fff',
+    fontSize: 14,
+    marginLeft: 5,
+  },
+  searchContainer: {
+    marginBottom: 20,
+  },
+  title: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  searchBarWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  searchBar: {
+    flex: 1,
+    backgroundColor: '#fff',
+    borderRadius: 25,
+  },
+  voiceSearchButton: {
+    backgroundColor: '#FFEB3B',
+    padding: 10,
+    borderRadius: 25,
+    marginLeft: 10,
+  },
+  listRow: {
+    justifyContent: 'space-between',
+    marginBottom: 15,
+  },
+  card: {
+    backgroundColor: '#fff',
+    width: '48%',
+    borderRadius: 12,
+    padding: 10,
+    alignItems: 'center',
+  },
+  profileImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 10,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  engagement: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 5,
+  },
+  price: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  messageButton: {
+    backgroundColor: '#6A0DAD',
+    width: '100%',
+  },
+  showAllCard: {
+    backgroundColor: '#9C27B0',
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  showAllText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  influencerCount: {
+    color: '#fff',
+    fontSize: 14,
+  },
+});
+
+export default InfluencerScreen;
