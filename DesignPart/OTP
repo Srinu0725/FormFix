@@ -1,0 +1,133 @@
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Text, Button } from 'react-native-paper';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
+import auth from '@react-native-firebase/auth';
+
+const OTPVerificationScreen = ({ route, navigation }: any) => {
+  const [otp, setOtp] = useState('');
+  const [countdown, setCountdown] = useState(120);
+  const [resendDisabled, setResendDisabled] = useState(true);
+
+  const email = route.params?.email || 'example@gmail.com';
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          setResendDisabled(false);
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleOTPSubmit = () => {
+    if (otp.length === 4) {
+      // Validate OTP (This should be handled with Firebase backend)
+      console.log('OTP Entered:', otp);
+      navigation.navigate('HomeScreen'); // Navigate after verification
+    }
+  };
+
+  const handleResendOTP = () => {
+    setCountdown(120);
+    setResendDisabled(true);
+    // Trigger resend OTP logic here (Firebase or other backend)
+  };
+
+  return (
+    <View style={styles.container}>
+      <Image source={require('../assets/lock-icon.png')} style={styles.icon} />
+      <Text style={styles.title}>OTP VERIFICATION</Text>
+      <Text style={styles.subtitle}>Enter the OTP sent to {email}</Text>
+
+      <OTPInputView
+        style={styles.otpContainer}
+        pinCount={4}
+        code={otp}
+        onCodeChanged={setOtp}
+        autoFocusOnLoad
+        codeInputFieldStyle={styles.otpBox}
+        codeInputHighlightStyle={styles.otpActiveBox}
+      />
+
+      <Text style={styles.timerText}>00:{countdown < 10 ? `0${countdown}` : countdown} Sec</Text>
+
+      <TouchableOpacity disabled={resendDisabled} onPress={handleResendOTP}>
+        <Text style={[styles.resendText, resendDisabled && styles.resendDisabled]}>
+          Don’t receive code? <Text style={{ fontWeight: 'bold' }}>Re-send</Text>
+        </Text>
+      </TouchableOpacity>
+
+      <Button mode="contained" onPress={handleOTPSubmit} style={styles.submitButton}>
+        Submit
+      </Button>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+  },
+  icon: {
+    width: 80,
+    height: 80,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#666',
+  },
+  otpContainer: {
+    width: '80%',
+    height: 80,
+  },
+  otpBox: {
+    width: 45,
+    height: 45,
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: '#999',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  otpActiveBox: {
+    borderColor: '#6A0DAD',
+  },
+  timerText: {
+    marginTop: 10,
+    fontSize: 14,
+    color: '#999',
+  },
+  resendText: {
+    marginTop: 10,
+    fontSize: 14,
+    color: '#6A0DAD',
+  },
+  resendDisabled: {
+    color: '#aaa',
+  },
+  submitButton: {
+    width: '100%',
+    marginTop: 20,
+    backgroundColor: '#6A0DAD',
+  },
+});
+
+export default OTPVerificationScreen;
